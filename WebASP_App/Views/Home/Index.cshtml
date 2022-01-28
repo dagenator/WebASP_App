@@ -1,0 +1,12 @@
+﻿@model IEnumerable<WebASP_App.Models.User>
+@{
+    ViewBag.Title = "Все пользователи";
+}
+<a asp-action="Create">Добавить пользователя</a>
+<table class="table">
+    <tr><td>id</td><td>email</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.Id</td><td>@item.Email</td></tr>
+    }
+</table>
