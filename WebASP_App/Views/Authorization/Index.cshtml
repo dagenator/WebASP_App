@@ -1,14 +1,15 @@
 ﻿@model WebASP_App.Models.User
 @{
-    ViewBag.Title = "Добавление пользователя";
+    ViewBag.Title = "Авторизация";
 }
-<form asp-action="create" asp-controller="home">
+<h2>Авторизация</h2>
+<form asp-action="DoAuthorization" asp-controller="Authorization">
     <div class="form-group">
         <label asp-for="Email" class="control-label">Имя</label>
         <input type="text" asp-for="Email" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Password" class="control-label">Возраст</label>
+        <label asp-for="Password" class="control-label">Пароль</label>
         <input type="text" asp-for="Password" class="form-control" />
     </div>
     <div class="form-group">

@@ -2,11 +2,28 @@
 @{
     ViewBag.Title = "Все пользователи";
 }
-<a asp-action="Create">Добавить пользователя</a>
-<table class="table">
-    <tr><td>id</td><td>email</td></tr>
-    @foreach (var item in Model)
-    {
-        <tr><td>@item.Id</td><td>@item.Email</td></tr>
-    }
-</table>
+
+
+@if (ViewData.ContainsKey("email"))
+{
+    var email = ViewData["email"].ToString();
+    <h1>@email </h1>
+    <div>
+        <a asp-controller="Authorization" asp-action="Exit">Выход</a>
+    </div>
+}
+else
+{
+    <a asp-controller="Registration" asp-action="Index">Регистрация</a>
+    <a asp-controller="Authorization" asp-action="Index">Войти в систему</a>
+
+    <table class="table">
+        <tr><td>Имя</td><td>Возраст</td></tr>
+        @foreach (var item in Model)
+        {
+            <tr><td>@item.Id</td><td>@item.Email</td><td>@item.Password</td></tr>
+        }
+    </table>
+}
+
+

@@ -10,26 +10,27 @@ namespace WebASP_App.Controllers
 {
     public class RegistrationController : Controller
     {
-        private UserContext db;
+        
         public RegistrationController(UserContext context)
         {
-            db = context;
+            UsersData.SetDb(context);
         }
         public async Task<IActionResult> Index()
         {
-            return View(await db.Users.ToListAsync());
-        }
-        public IActionResult Registration()
-        {
             return View();
         }
+       
         [HttpPost]
         public async Task<IActionResult> CreateNewUser(User user)
         {
-            db.Users.Add(user);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            if (UsersData.IsUserInBDbyEmail(user.Email))
+                return RedirectToAction("Error"); // to do: Предупреждение об ошибке, логин занят
+            
+            UsersData.AddUser(user);
+            return RedirectToAction("Index","Authorization");
         }
+
+        
 
     }
 }

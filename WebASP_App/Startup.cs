@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebASP_App.Models;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebASP_App
 {
@@ -25,17 +28,55 @@ namespace WebASP_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            // укзывает, будет ли валидироваться издатель при валидации токена
+                            ValidateIssuer = true,
+                            // строка, представляющая издателя
+                            ValidIssuer = AuthOptions.ISSUER,
+
+                            // будет ли валидироваться потребитель токена
+                            ValidateAudience = true,
+                            // установка потребителя токена
+                            ValidAudience = AuthOptions.AUDIENCE,
+                            // будет ли валидироваться время существования
+                            ValidateLifetime = true,
+
+                            // установка ключа безопасности
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                            // валидация ключа безопасности
+                            ValidateIssuerSigningKey = true,
+                        };
+                    });
+
+
             // получаем строку подключения из файла конфигурации
-            string connection = Configuration.GetConnectionString("DefaultConnection");
+            string userConnection = Configuration.GetConnectionString("DefaultConnection");
+            string sessionConnection = Configuration.GetConnectionString("SessionConnection");
+
             // добавляем контекст MobileContext в качестве сервиса в приложение
             services.AddDbContext<UserContext>(options =>
-                options.UseSqlServer(connection));
+                options.UseSqlServer(userConnection));
             services.AddControllersWithViews();
+
+            services.AddDbContext<SessionContext>(options =>
+                options.UseSqlServer(sessionConnection));
+            services.AddControllersWithViews();
+
+            //Работа с куками и с сессиями
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession(); // добавляем механизм работы с сессиями
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

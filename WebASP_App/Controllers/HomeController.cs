@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WebASP_App.Models;
 
@@ -12,25 +13,25 @@ namespace WebASP_App.Controllers
 {
     public class HomeController : Controller
     {
-        private UserContext db;
-        public HomeController(UserContext context)
+        
+        public HomeController(UserContext context, SessionContext session)
         {
-            db = context;
+            UsersData.SetDb(context);
+            SessionsData.SetDb(session);
         }
+
         public async Task<IActionResult> Index()
         {
-            return View(await db.Users.ToListAsync());
+            byte[] cookie;
+            if (HttpContext.Session.TryGetValue("asp_test_key", out cookie))
+            {
+                var newCookie = Encoding.ASCII.GetString(cookie);
+                SessionsData.GetAllCurrentSessions();
+                var user = SessionsData.GetUserBySession(newCookie);
+                ViewData.Add("email", user.Email);
+            }
+            return View(UsersData.GetUsers());
         }
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create(User user)
-        {
-            db.Users.Add(user);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+
     }
 }
