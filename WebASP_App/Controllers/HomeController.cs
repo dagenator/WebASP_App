@@ -14,22 +14,14 @@ namespace WebASP_App.Controllers
     public class HomeController : Controller
     {
         
-        public HomeController(UserContext context, SessionContext session)
+        public HomeController(UserContext context)
         {
             UsersData.SetDb(context);
-            SessionsData.SetDb(session);
         }
 
         public async Task<IActionResult> Index()
         {
-            byte[] cookie;
-            if (HttpContext.Session.TryGetValue("asp_test_key", out cookie))
-            {
-                var newCookie = Encoding.ASCII.GetString(cookie);
-                SessionsData.GetAllCurrentSessions();
-                var user = SessionsData.GetUserBySession(newCookie);
-                ViewData.Add("email", user.Email);
-            }
+            
             return View(UsersData.GetUsers());
         }
 

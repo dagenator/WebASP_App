@@ -56,15 +56,10 @@ namespace WebASP_App
 
             // получаем строку подключения из файла конфигурации
             string userConnection = Configuration.GetConnectionString("DefaultConnection");
-            string sessionConnection = Configuration.GetConnectionString("SessionConnection");
-
+           
             // добавляем контекст MobileContext в качестве сервиса в приложение
             services.AddDbContext<UserContext>(options =>
                 options.UseSqlServer(userConnection));
-            services.AddControllersWithViews();
-
-            services.AddDbContext<SessionContext>(options =>
-                options.UseSqlServer(sessionConnection));
             services.AddControllersWithViews();
 
             //Работа с куками и с сессиями

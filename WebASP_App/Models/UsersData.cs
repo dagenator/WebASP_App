@@ -62,5 +62,12 @@ namespace WebASP_App.Models
                  .Where(x => string.Compare(x.Email, email) == 0)
                  .FirstOrDefault();
         }
+
+        public static User GetUserByLoginAndPassword(string email, string password)
+        {
+            return db.Users.ToListAsync().Result
+                 .Where(x => string.Compare(x.Email, email) == 0 && string.Compare(x.Password, password) == 0)
+                 .FirstOrDefault();
+        }
     }
 }
