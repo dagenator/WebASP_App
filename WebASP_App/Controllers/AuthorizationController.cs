@@ -27,7 +27,6 @@ namespace WebASP_App.Controllers
             {
                 if (UsersData.IsPasswordCorrect(user))
                 {
-                    byte[] cookie;
                     var sessionValue = HttpContext.Session.Id;
                     HttpContext.Session.Set("asp_test_key", Encoding.ASCII.GetBytes(sessionValue.ToString()));
                     var newUser = UsersData.GetUserByEmail(user.Email);

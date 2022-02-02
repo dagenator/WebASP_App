@@ -20,8 +20,9 @@ namespace WebASP_App.Controllers
             SessionsData.SetDb(session);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int amountUploadedItems = 5 )
         {
+            
             byte[] cookie;
             if (HttpContext.Session.TryGetValue("asp_test_key", out cookie))
             {
@@ -30,7 +31,8 @@ namespace WebASP_App.Controllers
                 var user = SessionsData.GetUserBySession(newCookie);
                 ViewData.Add("email", user.Email);
             }
-            return View(UsersData.GetUsers());
+            ViewData.Add("itemsAmount", amountUploadedItems);
+            return View(CoinMarketApi.GetObjectsFromJson(amountUploadedItems, 5).data);
         }
 
     }

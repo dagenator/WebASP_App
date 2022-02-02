@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebASP_App.Models.User>
+﻿@model IEnumerable<WebASP_App.Models.CoinInfo>
 @{
     ViewBag.Title = "Все пользователи";
 }
@@ -16,14 +16,19 @@ else
 {
     <a asp-controller="Registration" asp-action="Index">Регистрация</a>
     <a asp-controller="Authorization" asp-action="Index">Войти в систему</a>
-
-    <table class="table">
-        <tr><td>Имя</td><td>Возраст</td></tr>
-        @foreach (var item in Model)
-        {
-            <tr><td>@item.Id</td><td>@item.Email</td><td>@item.Password</td></tr>
-        }
-    </table>
 }
 
+<table class="table">
+    <tr><td>Имя</td><td>Возраст</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.name</td>
+            <td>@item.symbol</td>
+            <td>@item.quote.USD.price</td>
+            <td>@item.quote.USD.percent_change_1h</td>
+            <td>@item.quote.USD.percent_change_24h</td>
+            <td>@item.quote.USD.market_cap</td>
+            <td>@item.last_updated</td></tr>
+    }
+</table>
 
