@@ -13,16 +13,23 @@ namespace WebASP_App.Controllers
 {
     public class HomeController : Controller
     {
-        
+        private int ItemsToShow = 50;
         public HomeController(UserContext context, SessionContext session)
         {
             UsersData.SetDb(context);
             SessionsData.SetDb(session);
         }
 
+        //[HttpGet]
+        //[Route("Home/GetParams/{itemsAmount:int}")]
+        //public IActionResult GetParams(int itemsAmount)
+        //{
+        //    ItemsToShow = itemsAmount;
+        //    return RedirectToAction("Index", "Home");
+        //}
+
         public async Task<IActionResult> Index()
         {
-            
             byte[] cookie;
             if (HttpContext.Session.TryGetValue("asp_test_key", out cookie))
             {
@@ -31,9 +38,9 @@ namespace WebASP_App.Controllers
                 var user = SessionsData.GetUserBySession(newCookie);
                 ViewData.Add("email", user.Email);
             }
-           
-            return View(CoinMarketApi.GetObjectsFromJson(1, 50).data);
+            ViewData.Add("itemsAmount", ItemsToShow);
+            CoinMarketApi coinApi = new CoinMarketApi("4f1661d5-efff-4d8d-aab7-a0c100d58573");
+            return View(coinApi.GetJoinObjectsFromJson(1, ItemsToShow).data);
         }
-
     }
 }

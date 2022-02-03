@@ -9,12 +9,10 @@ namespace WebASP_App.Models
     public sealed class SessionContext : DbContext
     {
         public DbSet<Session> Sessions { get; set; }
-
         public SessionContext(DbContextOptions<SessionContext> options)
           : base(options)
         {
             Database.EnsureCreated();
         }
-
     }
 }

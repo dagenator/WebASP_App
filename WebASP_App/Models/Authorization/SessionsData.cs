@@ -24,10 +24,19 @@ namespace WebASP_App.Models
             var sess = await db.Sessions.ToListAsync();
         }
 
-        public static void DeleteSession(User user, string sessionValue)
+        public static void DeleteSession(string sessionValue)
         {
-            db.Sessions.Remove(new Session { UserId = user.Id, SessionId = sessionValue });
-            db.SaveChangesAsync();
+            var deleted = db.Sessions.Find(sessionValue);
+            db.Sessions.Remove(deleted);
+            db.SaveChanges();
+        }
+
+        public static int GetUserIDBySession(string session)
+        {
+            return db.Sessions.ToList()
+                .Where(x => string.Compare(x.SessionId, session) == 0)
+                .Select(x => x.UserId)
+                .FirstOrDefault();
         }
 
         public static User GetUserBySession(string session)
@@ -35,11 +44,7 @@ namespace WebASP_App.Models
             if (db == null)
                 return null;
            
-            int userId = db.Sessions.ToListAsync().Result
-                .Where(x => string.Compare(x.SessionId, session) == 0)
-                .Select(x=>x.UserId)
-                .FirstOrDefault();
-            return UsersData.GetUserById(userId);
+            return UsersData.GetUserById(GetUserIDBySession(session));
         }
 
         public static List<Session> GetAllCurrentSessions()

@@ -34,16 +34,20 @@ namespace WebASP_App.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return   RedirectToAction("Error");
+            return RedirectToAction("Error");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Exit(User user)
+        public async Task<IActionResult> Exit()
         {
-            var cookie = HttpContext.Session.ToString();
-            SessionsData.DeleteSession(user, cookie);
+            byte[] cookie;
+            if (HttpContext.Session.TryGetValue("asp_test_key", out cookie))
+            {
+                var strCookie = Encoding.ASCII.GetString(cookie);
+                SessionsData.DeleteSession(strCookie);
+            }
+            ViewData.Clear();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
-
         }
     }
 }

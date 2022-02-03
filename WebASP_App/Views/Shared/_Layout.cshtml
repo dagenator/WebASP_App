@@ -19,20 +19,20 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Политика конфиденциальности</a>
                         </li>
                         @if (ViewData.ContainsKey("email"))
                         {
                             var email = ViewData["email"].ToString();
 
                             <li class="nav-item">
-                                <h1>Добро пожаловать, @email! </h1>
+                                <font>Добро пожаловать, @email!</font>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Authorization" asp-action="Exit">Выход</a>
+                                <a class="nav-link text-dark"  asp-controller="Authorization" asp-action="Exit">Выход</a>
                             </li>
                         }
                         else
