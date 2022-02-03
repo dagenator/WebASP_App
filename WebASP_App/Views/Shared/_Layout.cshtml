@@ -24,6 +24,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (ViewData.ContainsKey("email"))
+                        {
+                            var email = ViewData["email"].ToString();
+
+                            <li class="nav-item">
+                                <h1>Добро пожаловать, @email! </h1>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authorization" asp-action="Exit">Выход</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Registration" asp-action="Index">Регистрация</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authorization" asp-action="Index">Войти в систему</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
