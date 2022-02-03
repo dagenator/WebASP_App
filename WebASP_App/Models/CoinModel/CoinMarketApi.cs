@@ -38,6 +38,7 @@ namespace WebASP_App.Models
             var res = client.DownloadData(URL.ToString());
             return System.Text.Encoding.Default.GetString(res);
         }
+
         private string makeAPICallWithParametres(string url, Dictionary<string, string> param)
         {
             var queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -56,10 +57,13 @@ namespace WebASP_App.Models
                     {"limit", limit.ToString()},
                     {"convert", "USD"}
                 });
+
             var mainRoot = JsonConvert.DeserializeObject<CoinJsonRootClass>(mainJsonText);
             var idList = mainRoot.data.Select(x => x.id);
+
             var LogoJsonText = makeAPICallWithParametres(cryptocurrency_info,
                 new Dictionary<string, string> { { "id", string.Join(",", idList) } });
+
             var logoJObject = JObject.Parse(LogoJsonText);
             foreach (var item in mainRoot.data)
             {

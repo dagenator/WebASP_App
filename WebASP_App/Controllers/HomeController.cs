@@ -20,14 +20,6 @@ namespace WebASP_App.Controllers
             SessionsData.SetDb(session);
         }
 
-        //[HttpGet]
-        //[Route("Home/GetParams/{itemsAmount:int}")]
-        //public IActionResult GetParams(int itemsAmount)
-        //{
-        //    ItemsToShow = itemsAmount;
-        //    return RedirectToAction("Index", "Home");
-        //}
-
         public async Task<IActionResult> Index()
         {
             byte[] cookie;

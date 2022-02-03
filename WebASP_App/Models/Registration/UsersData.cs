@@ -51,9 +51,7 @@ namespace WebASP_App.Models
 
         public static User GetUserById(int id)
         {
-           return  db.Users.ToListAsync().Result
-                .Where(x=> x.Id == id)
-                .FirstOrDefault();
+            return db.Users.Find(id);
         }
 
         public static User GetUserByEmail(string email)

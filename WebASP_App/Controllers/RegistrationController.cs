@@ -10,11 +10,11 @@ namespace WebASP_App.Controllers
 {
     public class RegistrationController : Controller
     {
-        
         public RegistrationController(UserContext context)
         {
             UsersData.SetDb(context);
         }
+
         public async Task<IActionResult> Index()
         {
             return View();
@@ -29,8 +29,5 @@ namespace WebASP_App.Controllers
             UsersData.AddUser(user);
             return RedirectToAction("Index","Authorization");
         }
-
-        
-
     }
 }
