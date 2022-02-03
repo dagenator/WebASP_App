@@ -5,14 +5,13 @@
 }
 
 <head>
-   
+
 </head>
 <body>
-
-
-    <table class="table table_sort">
+    <table class="table" id="sorted_table">
         <thead>
             <tr>
+                
                 <th>Название</th>
                 <th>Символ</th>
                 <th>Логотип</th>
@@ -23,44 +22,33 @@
                 <th>Обновление данных</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.name</td>
-                    <td>@item.symbol</td>
-                    <td><img width="80" height="80" src=@item.logo alt=@item.logo></td>
-                    <td>@item.quote.USD.price</td>
-                    <td>@item.quote.USD.percent_change_1h%</td>
-                    <td>@item.quote.USD.percent_change_24h%</td>
-                    <td>@item.quote.USD.market_cap</td>
-                    <td>@item.last_updated</td>
-                </tr>
-            }
-        </tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>@item.name</td>
+                <td>@item.symbol</td>
+                <td><img width="80" height="80" src=@item.logo alt=@item.logo></td>
+                <td>@item.quote.USD.price</td>
+                <td>@item.quote.USD.percent_change_1h%</td>
+                <td>@item.quote.USD.percent_change_24h%</td>
+                <td>@item.quote.USD.market_cap</td>
+                <td>@item.last_updated.ToLocalTime()</td>
+            </tr>
+        }
+
     </table>
 
+    <script src='/lib/tablesort-gh-pages/dist/tablesort.min.js'></script>
+
+    <!-- Include sort types you need -->
+    <script src='/lib/tablesort-gh-pages/src/sorts/tablesort.date.js'></script>
+    <script src='/lib/tablesort-gh-pages/src/sorts/tablesort.dotsep.js'></script>
+    <script src='/lib/tablesort-gh-pages/src/sorts/tablesort.number.js'></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const getSort = ({ target }) => {
-                const order = (target.dataset.order = -(target.dataset.order || -1));
-                const index = [...target.parentNode.cells].indexOf(target);
-                const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
-                const comparator = (index, order) => (a, b) => order * collator.compare(
-                    a.children[index].innerHTML,
-                    b.children[index].innerHTML
-                );
-
-                for (const tBody of target.closest('table').tBodies)
-                    tBody.append(...[...tBody.rows].sort(comparator(index, order)));
-
-                for (const cell of target.parentNode.cells)
-                    cell.classList.toggle('sorted', cell === target);
-            };
-
-            document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
-
-        });
+        new Tablesort(document.getElementById('sorted_table'));
     </script>
 </body>

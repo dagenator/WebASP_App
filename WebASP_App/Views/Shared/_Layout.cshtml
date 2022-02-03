@@ -21,15 +21,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Политика конфиденциальности</a>
-                        </li>
                         @if (ViewData.ContainsKey("email"))
                         {
                             var email = ViewData["email"].ToString();
 
                             <li class="nav-item">
-                                <font>Добро пожаловать, @email!</font>
+                                Добро пожаловать, @email!
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark"  asp-controller="Authorization" asp-action="Exit">Выход</a>
