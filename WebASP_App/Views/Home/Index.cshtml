@@ -4,29 +4,25 @@
 }
 
 
-@if (ViewData.ContainsKey("email"))
-{
-    var email = ViewData["email"].ToString();
-    <h1>@email </h1>
-    <div>
-        <a asp-controller="Authorization" asp-action="Exit">Выход</a>
-    </div>
-}
-else
-{
-    <a asp-controller="Registration" asp-action="Index">Регистрация</a>
-    <a asp-controller="Authorization" asp-action="Index">Войти в систему</a>
-}
-
 <table class="table">
-    <tr><td>Имя</td><td>Возраст</td></tr>
+    <tr>
+        <td>Название</td>
+        <td>Символ</td>
+        <td>Логотип</td>
+        <td>Цена</td>
+        <td>Изменение цены за последний час</td>
+        <td>Изменение цены за последние 24 часа</td>
+        <td>Капитализация USD</td>
+        <td>Обновление данных</td>
+    </tr>
     @foreach (var item in Model)
     {
         <tr><td>@item.name</td>
             <td>@item.symbol</td>
+            <td><img  width="80" height="80" src=@item.logo alt=@item.logo ></td>
             <td>@item.quote.USD.price</td>
-            <td>@item.quote.USD.percent_change_1h</td>
-            <td>@item.quote.USD.percent_change_24h</td>
+            <td>@item.quote.USD.percent_change_1h%</td>
+            <td>@item.quote.USD.percent_change_24h%</td>
             <td>@item.quote.USD.market_cap</td>
             <td>@item.last_updated</td></tr>
     }

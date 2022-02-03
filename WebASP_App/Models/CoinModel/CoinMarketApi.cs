@@ -75,15 +75,11 @@ namespace WebASP_App.Models
             var LogoJsonText = makeAPICallWithParametres(cryptocurrency_info,
                 new Dictionary<string, string> { { "id", string.Join(",", idList) } });
             var logoJObject = JObject.Parse(LogoJsonText);
-
-
-
             foreach(var item in mainRoot.data)
             {
                 item.SetLogo(logoJObject["data"][item.id.ToString()]["logo"].ToString());
             }
-
-            return JsonConvert.DeserializeObject<CoinJsonRootClass>(mainJsonText);
+            return mainRoot;
         }
     }
 }
